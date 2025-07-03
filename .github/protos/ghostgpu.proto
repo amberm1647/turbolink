@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+//import "google/protobuf/empty.proto";
+
+package ghostgpu;
+
+service GhostGPU {
+	//start session should also call join session
+	rpc CreateSession (SessionInfo) returns (ServerResponse) {}
+
+	rpc JoinSession (SessionInfo) returns (ServerResponse) {}
+
+	rpc GenerateDepthImage (stream ImageData) returns (stream ImageData) {}
+
+}
+
+//used for creating/joining a session or querying session info. 
+//client makes session id optional for creating a session,
+//and user id an optional filter for getting request logs.
+message SessionInfo {
+	string user_id = 1;
+	string session_id = 2;
+}
+
+//generic response where server only needs to return confirmation msg
+message ServerResponse {
+	string msg = 1;
+}
+
+message ImageData {
+	oneof data {
+		SessionInfo info = 1;
+		bytes content = 2;
+	}
+}
