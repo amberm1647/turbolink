@@ -1,17 +1,23 @@
 syntax = "proto3";
 
+import "google/protobuf/empty.proto";
+
 package ghostgpu;
 
 service GhostGPU {
 	rpc CreateSession (SessionInfo) returns (ServerResponse) {}
 
-	rpc JoinSession (SessionInfo) returns (ServerResponse) {}
+    rpc JoinSession (SessionInfo) returns (ServerResponse) {}
 
 	rpc SendCapture (DataBuffer) returns (ServerResponse) {}
 
 	rpc GetCapture (DataRequest) returns (DataBuffer) {}
 
 	rpc GetDepth (DataRequest) returns (DataBuffer) {}
+
+    rpc SetUserMessage(UserMessage) returns (google.protobuf.Empty) {}
+
+    rpc GetUserMessages (SessionInfo) returns (UserMessages) {}
 }
 
 message SessionInfo {
@@ -27,6 +33,39 @@ message DataRequest {
 	SessionInfo info = 1;
 	int32 chunk_size = 2;
 	int32 chunk_index = 3;
+}
+
+message UserOrientation {
+    float x = 1;
+    float y = 2;
+    float z = 3;
+}
+
+message UserPin {
+    string name = 1;
+    float x = 2;
+    float y = 3;
+    float z = 4;
+}
+
+message UserMessage {
+    enum UserMessageType
+    {
+        User_Orientation=0;
+        User_Pin = 1;
+    }
+
+    UserMessageType type = 1;
+    SessionInfo info=2;
+    
+    oneof data {
+        UserOrientation orientation = 3;
+        UserPin pin = 4;
+    }
+}
+
+message UserMessages {
+    repeated UserMessage msgs = 1;
 }
 
 message DataBuffer {
