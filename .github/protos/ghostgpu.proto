@@ -42,21 +42,27 @@ message UserOrientation {
 }
 
 message UserPin {
-    string name = 1;
-    float x = 2;
-    float y = 3;
-    float z = 4;
+    enum UserPinAction {
+        Create = 0;
+        Move = 1;
+        Delete = 2;
+    }
+    int32 id = 1;
+    string name = 2;
+    float x = 3;
+    float y = 4;
+    float z = 5;
+    UserPinAction action = 6;
 }
 
 message UserMessage {
-    enum UserMessageType
-    {
+    enum UserMessageType {
         User_Orientation=0;
         User_Pin = 1;
     }
 
     UserMessageType type = 1;
-    SessionInfo info=2;
+    SessionInfo info = 2;
     
     oneof data {
         UserOrientation orientation = 3;
