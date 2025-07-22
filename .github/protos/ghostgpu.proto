@@ -5,9 +5,9 @@ import "google/protobuf/empty.proto";
 package ghostgpu;
 
 service GhostGPU {
-	rpc CreateSession (SessionInfo) returns (ServerResponse) {}
+	rpc CreateSession (SessionInfo) returns (ClientColor) {}
 
-    rpc JoinSession (SessionInfo) returns (ServerResponse) {}
+    rpc JoinSession (SessionInfo) returns (ClientColor) {}
 
 	rpc SendCapture (DataBuffer) returns (ServerResponse) {}
 
@@ -27,6 +27,10 @@ message SessionInfo {
 
 message ServerResponse {
 	string msg = 1;
+}
+
+message ClientColor {
+    UserColor color = 1;
 }
 
 message DataRequest {
@@ -55,6 +59,12 @@ message UserPin {
     Action action = 6;
 }
 
+enum UserColor {
+    Red = 0;
+    Green = 1;
+    Blue = 2;
+}
+
 message UserMessage {
     enum Type {
         User_Orientation = 0;
@@ -68,6 +78,8 @@ message UserMessage {
         UserOrientation orientation = 3;
         UserPin pin = 4;
     }
+
+    UserColor color = 5;
 }
 
 message UserMessages {
