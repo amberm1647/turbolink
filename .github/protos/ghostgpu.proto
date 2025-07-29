@@ -18,6 +18,8 @@ service GhostGPU {
     rpc SetUserMessage(UserMessage) returns (google.protobuf.Empty) {}
 
     rpc GetUserMessages (SessionInfo) returns (UserMessages) {}
+
+    rpc GetPinsBacklog (SessionInfo) returns (UserMessages) {}
 }
 
 message SessionInfo {
