@@ -15,7 +15,7 @@ service GhostGPU {
 
 	rpc GetDepth (DataRequest) returns (DataBuffer) {}
 
-    rpc SetUserMessage(UserMessage) returns (google.protobuf.Empty) {}
+    rpc SetUserMessages(UserMessages) returns (google.protobuf.Empty) {}
 
     rpc GetUserMessages (SessionInfo) returns (UserMessages) {}
 
